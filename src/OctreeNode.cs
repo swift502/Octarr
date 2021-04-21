@@ -69,17 +69,18 @@ public class OctreeNode<T>
 
 	public void DrawBounds(bool recursively = false)
 	{
-		Vector3 center = new Vector3(
-			position[0] + (size / 2f),
-			position[1] + (size / 2f),
-			position[2] + (size / 2f)
-		);
-		Vector3 sizeVector = new Vector3(size, size, size);
-
 		// Here you can implement debug drawing depending
-		// on your graphic environment. Draw a box based on two parameters:
-		// center - center position in global space
-		// sizeVector - half extent of the box
+		// on your graphic environment. Below is an example from the
+		// Godot engine.
+
+		// Vector3 center = new Vector3(
+		// 	position[0] + (size / 2f),
+		// 	position[1] + (size / 2f),
+		// 	position[2] + (size / 2f)
+		// );
+		// Vector3 sizeVector = new Vector3(size, size, size);
+
+
 		// DebugDraw.DrawBox(center, sizeVector, new Color("00ff00"));
 
 		if (recursively)
