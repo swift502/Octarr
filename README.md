@@ -15,7 +15,9 @@ Thing thing = octree[1, 2, 3];			// Read unassigned, returns null
 
 // Debug
 int nodeCount = octree.CountNodes();	// Count all octree nodes
-octree.DrawTree();		// Draws the octree, but first you must add a box drawing function specific to your graphic environment in the OctreeNode.DrawBounds function
+// Draw the octree, but first you must add a box drawing function
+// specific to your graphic environment in the OctreeNode.DrawBounds function
+octree.DrawTree();
 ```
 
 ## Limitations
