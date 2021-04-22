@@ -1,4 +1,4 @@
-# Octree array
+# Octree Array
 
 Dynamic cubic octree capable of storing class data, accessed via indexers. Written in C#, based on the C++ [Cubic-octree](https://github.com/markusgod/cubic-octree).
 
