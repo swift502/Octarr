@@ -117,9 +117,9 @@ public class Octree<T> where T : class
 
 		// Create new half sized root and assign old inner subNodes as root children
 		int[] newPos = new int[] {
-			root.position[0] + root.HalfSize / 2,
-			root.position[1] + root.HalfSize / 2,
-			root.position[2] + root.HalfSize / 2
+			root.position[0] + (root.HalfSize / 2),
+			root.position[1] + (root.HalfSize / 2),
+			root.position[2] + (root.HalfSize / 2)
 		};
 		root = new OctreeNode<T>(newPos, root.size / 2);
 		root.subNodes = innerSubNodes;

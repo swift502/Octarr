@@ -9,7 +9,6 @@ public class OctantIdentifier
 	public int y => bits[1] ? 1 : 0;
 	public int z => bits[2] ? 1 : 0;
 
-
 	public OctantIdentifier() {}
 
 	public OctantIdentifier(int index)
