@@ -11,13 +11,15 @@ Unlike multidimensional or jagged arrays, an octree is memory friendly. You can 
 public Octree<Thing> octree = new Octree<Thing>();	// Create an octree
 octree[10, -20, 30] = new Thing();		// Write
 Thing thing = octree[10, -20, 30];		// Read assigned, returns your object
-thing = octree[1, 2, 3];			// Read unassigned, returns null
+thing = octree[1, 2, 3];				// Read unassigned, returns null
 
 // Debug
-int nodeCount = octree.CountNodes();	// Count all octree nodes
-// Draw the octree, but first you must implement box drawing specific
-// to your graphic environment in the OctreeNode.DrawBounds function
-octree.DrawTree();
+int nodeCount = octree.GetNodeCount();	// Count all octree nodes
+octree.DrawTree((float x, float y, float z, float halfSize) =>
+{
+	// Draw the octree using your own box drawing function
+	DrawBox(x, y, z, halfSize);
+});
 ```
 
 ## Limitations

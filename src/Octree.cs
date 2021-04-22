@@ -20,7 +20,7 @@ public class Octree<T> where T : class
 			OctreeNode<T> currentNode = root;
 			while (currentNode.size > 1)
 			{
-				if(currentNode.IsLeaf) return null;	// If a node bigger than 1 has no children, we've hit a dead end
+				if(currentNode.IsDeadEnd) return null;	// If a node bigger than 1 has no children, we've hit a dead end
 				OctantIdentifier octant = currentNode.GetOctantFromPosition(x, y, z);
 				currentNode = currentNode.subNodes[octant.index];
 			}
@@ -35,7 +35,7 @@ public class Octree<T> where T : class
 			while (currentNode.size > 1)
 			{
 				OctantIdentifier octant = currentNode.GetOctantFromPosition(x, y, z);
-				if(currentNode.IsLeaf) currentNode.Subdivide();
+				if(currentNode.IsDeadEnd) currentNode.Subdivide();
 				currentNode = currentNode.subNodes[octant.index];
 			}
 
@@ -44,22 +44,22 @@ public class Octree<T> where T : class
 		}
 	}
 
-	public void Optimize()
+	public void DrawTree(OctreeNode<T>.DrawBox callback)
 	{
-		root.RemoveDeadEnds(true);
-		Shrink(true);
+		root.DrawBounds(callback, true);
 	}
 
-	public void DrawTree()
-	{
-		root.DrawBounds(true);
-	}
-
-	public int CountNodes()
+	public int GetNodeCount()
 	{
 		int count = 1;
 		root.CountSubNodes(ref count);
 		return count;
+	}
+
+	void Optimize()
+	{
+		root.RemoveDeadEnds(true);
+		Shrink(true);
 	}
 
 	bool IsOutsideRoot(int x, int y, int z)
@@ -101,7 +101,7 @@ public class Octree<T> where T : class
 		bool outerHaveChildren = false;
 		ForEachOuterRootSubNode(subNode =>
 		{
-			if (!subNode.IsLeaf) outerHaveChildren = true; // Outer node has children, can't shrink
+			if (!subNode.IsDeadEnd) outerHaveChildren = true; // Outer node has children, can't shrink
 		});
 		if (outerHaveChildren) return;
 
@@ -131,39 +131,33 @@ public class Octree<T> where T : class
 		if (recursively) Shrink(true);
 	}
 
-	public void ForEachInnerRootSubNode(Action<OctreeNode<T>> callback)
+	void ForEachInnerRootSubNode(Action<OctreeNode<T>> callback)
 	{
 		ForEachSecondOrderRootSubNode(callback);
 	}
 
-	public void ForEachOuterRootSubNode(Action<OctreeNode<T>> callback)
+	void ForEachOuterRootSubNode(Action<OctreeNode<T>> callback)
 	{
 		ForEachSecondOrderRootSubNode(null, callback);
 	}
 
-	public void ForEachSecondOrderRootSubNode(Action<OctreeNode<T>> innerNodesCallback = null, Action<OctreeNode<T>> outerNodesCallback = null)
+	void ForEachSecondOrderRootSubNode(Action<OctreeNode<T>> innerNodesCallback = null, Action<OctreeNode<T>> outerNodesCallback = null)
 	{
-		if (!root.IsLeaf)
+		for (int i = 0; i < root.subNodes.Count; i++)
 		{
-			for (int i = 0; i < 8; i++)
-			{
-				OctantIdentifier octant = new OctantIdentifier(i);
-				OctreeNode<T> subNode = root.subNodes[octant.index];
+			OctantIdentifier octant = new OctantIdentifier(i);
+			OctreeNode<T> subNode = root.subNodes[octant.index];
 
-				if (!subNode.IsLeaf)
+			for (int j = 0; j < subNode.subNodes.Count; j++)
+			{
+				OctreeNode<T> secondOrderSubNode = subNode.subNodes[j];
+				if (j == octant.Inverse().index)
 				{
-					for (int j = 0; j < 8; j++)
-					{
-						OctreeNode<T> secondOrderSubNode = subNode.subNodes[j];
-						if (j == octant.Inverse().index)
-						{
-							innerNodesCallback?.Invoke(secondOrderSubNode);
-						}
-						else
-						{
-							outerNodesCallback?.Invoke(secondOrderSubNode);
-						}
-					}
+					innerNodesCallback?.Invoke(secondOrderSubNode);
+				}
+				else
+				{
+					outerNodesCallback?.Invoke(secondOrderSubNode);
 				}
 			}
 		}

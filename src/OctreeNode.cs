@@ -1,4 +1,3 @@
-using Godot;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ public class OctreeNode<T>
 {
 	public T data;
 	public List<OctreeNode<T>> subNodes = new List<OctreeNode<T>>();
-	public bool IsLeaf => subNodes.Count == 0;
+	public bool IsDeadEnd => subNodes.Count == 0;
 
 	public int[] position;
 	public int size;
@@ -21,7 +20,7 @@ public class OctreeNode<T>
 
 	public void Subdivide(int amount = 1)
 	{
-		if (IsLeaf && size > 1)
+		if (IsDeadEnd && size > 1)
 		{
 			for (int i = 0; i < 8; i++)
 			{
@@ -39,7 +38,7 @@ public class OctreeNode<T>
 	public void RemoveDeadEnds(bool recursively = false)
 	{
 		// Check if already simplified
-		if (IsLeaf) return;
+		if (IsDeadEnd) return;
 
 		// Simplify recursively
 		if (recursively)
@@ -50,7 +49,7 @@ public class OctreeNode<T>
 		// If any subNode has children or data, exit
 		foreach(OctreeNode<T> subNode in subNodes)
 		{
-			if (!subNode.IsLeaf || subNode.data != null) return;
+			if (!subNode.IsDeadEnd || subNode.data != null) return;
 		}
 
 		// All subNodes are empty, simplify this node
@@ -67,25 +66,18 @@ public class OctreeNode<T>
 		return octant;
 	}
 
-	public void DrawBounds(bool recursively = false)
+	public delegate void DrawBox(
+		float centerX, float centerY, float centerZ,
+		float boxHalfExtent
+	);
+
+	public void DrawBounds(DrawBox callback, bool recursively = false)
 	{
-		// Here you can implement debug drawing depending
-		// on your graphic environment. Below is an example from the
-		// Godot engine.
-
-		// Vector3 center = new Vector3(
-		// 	position[0] + (size / 2f),
-		// 	position[1] + (size / 2f),
-		// 	position[2] + (size / 2f)
-		// );
-		// Vector3 sizeVector = new Vector3(size, size, size);
-
-
-		// DebugDraw.DrawBox(center, sizeVector, new Color("00ff00"));
+		callback(position[0] + (size / 2f), position[1] + (size / 2f), position[2] + (size / 2f), size);
 
 		if (recursively)
 		{
-			subNodes.ForEach(subNode => subNode.DrawBounds(true));
+			subNodes.ForEach(subNode => subNode.DrawBounds(callback, true));
 		}
 	}
 
@@ -102,9 +94,9 @@ public class OctreeNode<T>
 	int[] GetOctantPosition(OctantIdentifier octant)
 	{
 		return new int[] {
-			position[0] + ((octant.bits[0] ? 1 : 0) * HalfSize),
-			position[1] + ((octant.bits[1] ? 1 : 0) * HalfSize),
-			position[2] + ((octant.bits[2] ? 1 : 0) * HalfSize)
+			position[0] + (octant.x * HalfSize),
+			position[1] + (octant.y * HalfSize),
+			position[2] + (octant.z * HalfSize)
 		};
 	}
 }

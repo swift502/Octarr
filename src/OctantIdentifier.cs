@@ -3,8 +3,12 @@ using System.Collections;
 
 public class OctantIdentifier
 {
-	public int index => ToNumeral(bits);
 	public BitArray bits = new BitArray(3);
+	public int index => ToNumeral(bits);
+	public int x => bits[0] ? 1 : 0;
+	public int y => bits[1] ? 1 : 0;
+	public int z => bits[2] ? 1 : 0;
+
 
 	public OctantIdentifier() {}
 
@@ -29,19 +33,19 @@ public class OctantIdentifier
 	}
 
 	BitArray ToBinary(int numeral)
-    {
-        return new BitArray(new[] { numeral });
-    }
+	{
+		return new BitArray(new[] { numeral });
+	}
 
-    int ToNumeral(BitArray binary)
-    {
-        if (binary == null)
-            throw new ArgumentNullException("binary");
-        if (binary.Length > 32)
-            throw new ArgumentException("must be at most 32 bits long");
+	int ToNumeral(BitArray binary)
+	{
+		if (binary == null)
+			throw new ArgumentNullException("binary");
+		if (binary.Length > 32)
+			throw new ArgumentException("must be at most 32 bits long");
 
-        var result = new int[1];
-        binary.CopyTo(result, 0);
-        return result[0];
-    }
+		var result = new int[1];
+		binary.CopyTo(result, 0);
+		return result[0];
+	}
 }
