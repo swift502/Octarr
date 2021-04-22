@@ -11,7 +11,7 @@ Unlike multidimensional or jagged arrays, an octree is memory friendly. You can 
 public Octree<Thing> octree = new Octree<Thing>();	// Create an octree
 octree[10, -20, 30] = new Thing();		// Write
 Thing thing = octree[10, -20, 30];		// Read assigned, returns your object
-thing = octree[1, 2, 3];				// Read unassigned, returns null
+thing = octree[1, 2, 3];			// Read unassigned, returns null
 
 // Debug
 int nodeCount = octree.GetNodeCount();	// Count all octree nodes
