@@ -1,6 +1,6 @@
-# C# Cubic octree
+# Octree array
 
-Dynamic cubic octree in for class data, written C#. Based on the C++ [Cubic-octree](https://github.com/markusgod/cubic-octree).
+Dynamic cubic octree capable of storing class data, accessed via indexers. Written in C#, based on the C++ [Cubic-octree](https://github.com/markusgod/cubic-octree).
 
 Basically a generic endless 3D array, which can be accessed like regular arrays and grows and shrinks depending on how much space needs to be allocated. Location index can be positive or negative in any direction. Octree is centered around the zero coordinate (0, 0, 0), and grows and shrinks _from_ and _to_ this zero coordinate.
 
