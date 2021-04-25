@@ -1,4 +1,4 @@
-# ArrayOctree
+# OctreeArray
 
 Dynamic cubic octree capable of storing class data, accessed via indexers. Written in C#, based on the C++ [Cubic-octree](https://github.com/markusgod/cubic-octree).
 
@@ -8,7 +8,7 @@ Unlike multidimensional or jagged arrays, an octree is memory friendly. You can 
 
 ```cs
 // Usage
-public Octree<Thing> octree = new Octree<Thing>();	// Create an octree
+public OctreeArray<Thing> octree = new OctreeArray<Thing>();	// Create an octree
 octree[10, -20, 30] = new Thing();		// Write
 Thing thing = octree[10, -20, 30];		// Read assigned, returns your object
 thing = octree[1, 2, 3];			// Read unassigned, returns null

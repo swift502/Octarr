@@ -2,11 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class Octree<T> where T : class
+public class OctreeArray<T> where T : class
 {
 	OctreeNode<T> root;
 
-	public Octree()
+	public OctreeArray()
 	{
 		root = new OctreeNode<T>(new int[] {-1, -1, -1}, 2);
 	}
