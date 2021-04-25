@@ -22,8 +22,7 @@ octree.DrawTree((float x, float y, float z, float halfSize) =>
 });
 ```
 
-## Limitations
+## ToDo
 
-Octree node size is currently limited by the Int32.MaxValue number, which limits the data location to roughly +-2^16 on all x, y and z axes. Increasing the node size type to Int64 or even better, storing node size as a power of 2 should be done to improve the possible array size.
-
-Data is currently required to be classes. It too can however be easily changed to structs, should you need to store integers, strings, ect. as data.
+- Octree node size is currently limited by the Int32.MaxValue number, which limits the data location to roughly +-2^16 on all x, y and z axes. Increasing the node size type to Int64 or even better, storing node size as a power of 2 should be done to improve the possible array size.
+- Data is currently required to be classes. That should be modified to support both classes and structs, depending on user's needs.
