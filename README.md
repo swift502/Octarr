@@ -4,7 +4,7 @@ Dynamic cubic octree capable of storing class data, accessed via indexers. Writt
 
 Basically a generic endless 3D array, which can be accessed like regular arrays and grows and shrinks depending on how much space needs to be allocated. Location index can be positive or negative in any direction. Octree is centered around the zero coordinate (0, 0, 0), and grows and shrinks _from_ and _to_ this zero coordinate.
 
-Unlike multidimensional or jagged arrays, an octree is memory friendly. You can write a data block at the `[2^30, 2^30, 2^30]` position and not run out of memory. It will then take roughly 30 octree node lookups (logarithmic complexity) to find that data, or anything near it.
+Unlike multidimensional or jagged arrays, an octree is memory friendly. You can write a data block at the `[2^14, 2^14, 2^14]` position and not run out of memory. It will then take roughly 30 octree node lookups (logarithmic complexity) to find that data, or anything near it.
 
 ```cs
 // Usage
@@ -24,6 +24,6 @@ octree.DrawTree((float x, float y, float z, float halfSize) =>
 
 ## Limitations
 
-Data position is currently limited by the Int32.MaxValue number. However OctreeNode positions could easily be changed to Int64s.
+Octree node size is currently limited by the Int32.MaxValue number, which limits the data location to roughly +-2^16 on all x, y and z axes. Increasing the node size type to Int64 or even better, storing node size as a power of 2 should be done to improve the possible array size.
 
 Data is currently required to be classes. It too can however be easily changed to structs, should you need to store integers, strings, ect. as data.
