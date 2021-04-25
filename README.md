@@ -11,16 +11,15 @@ Unlike multidimensional or jagged arrays, octarr is memory friendly. You can wri
 ```cs
 // Usage
 public Octarr<Data> octarr = new Octarr<Data>();	// Create an octarr
-octarr[10, -20, 30] = new Data();		// Write
-Data data = octarr[10, -20, 30];		// Read assigned, returns your object
-data = octarr[1, 2, 3];			// Read unassigned, returns null
+octarr[10, -20, 30] = new Data();			// Write
+Data data = octarr[10, -20, 30];			// Read assigned, returns your object
+data = octarr[1, 2, 3];					// Read unassigned, returns null
 
 // Debug
 int nodeCount = octarr.GetNodeCount();	// Count all octree nodes
 octarr.DrawTree((float x, float y, float z, float halfSize) =>
 {
-	// Draw the octree using your own box drawing function
-	DrawBox(x, y, z, halfSize);
+	DrawBox(x, y, z, halfSize);	// Draw the octree using your own box drawing function
 });
 ```
 
