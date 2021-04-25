@@ -10,10 +10,10 @@ Unlike multidimensional or jagged arrays, an octree is memory friendly. You can 
 
 ```cs
 // Usage
-public Octarr<Thing> octarr = new Octarr<Thing>();	// Create an octarr
-octarr[10, -20, 30] = new Thing();		// Write
-Thing thing = octarr[10, -20, 30];		// Read assigned, returns your object
-thing = octarr[1, 2, 3];			// Read unassigned, returns null
+public Octarr<Data> octarr = new Octarr<Data>();	// Create an octarr
+octarr[10, -20, 30] = new Data();		// Write
+Data data = octarr[10, -20, 30];		// Read assigned, returns your object
+data = octarr[1, 2, 3];			// Read unassigned, returns null
 
 // Debug
 int nodeCount = octarr.GetNodeCount();	// Count all octree nodes
