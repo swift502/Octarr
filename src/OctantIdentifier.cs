@@ -13,7 +13,7 @@ public class OctantIdentifier
 
 	public OctantIdentifier(int index)
 	{
-		bits = ToBinary(index);
+		bits = new BitArray(new[] { index });
 	}
 
 	public OctantIdentifier(BitArray bits)
@@ -31,18 +31,8 @@ public class OctantIdentifier
 		return new OctantIdentifier(inverse);
 	}
 
-	BitArray ToBinary(int numeral)
-	{
-		return new BitArray(new[] { numeral });
-	}
-
 	int ToNumeral(BitArray binary)
 	{
-		if (binary == null)
-			throw new ArgumentNullException("binary");
-		if (binary.Length > 32)
-			throw new ArgumentException("must be at most 32 bits long");
-
 		var result = new int[1];
 		binary.CopyTo(result, 0);
 		return result[0];

@@ -1,18 +1,17 @@
-using System;
-using System.Collections;
+using System.Numerics;
 using System.Collections.Generic;
 
-public class OctreeNode<T>
+public class OctarrNode<T>
 {
 	public T data;
-	public List<OctreeNode<T>> subNodes = new List<OctreeNode<T>>();
+	public List<OctarrNode<T>> subNodes = new List<OctarrNode<T>>();
 	public bool IsDeadEnd => subNodes.Count == 0;
 
-	public int[] position;
-	public int size;
-	public int HalfSize => size / 2;
+	public BigInteger[] position;
+	public BigInteger size;
+	public BigInteger HalfSize => size / 2;
 
-	public OctreeNode(int[] position, int size)
+	public OctarrNode(BigInteger[] position, BigInteger size)
 	{
 		this.position = position;
 		this.size = size;
@@ -24,8 +23,8 @@ public class OctreeNode<T>
 		{
 			for (int i = 0; i < 8; i++)
 			{
-				int[] position = GetOctantPosition(new OctantIdentifier(i));
-				subNodes.Add(new OctreeNode<T>(position, size / 2));
+				BigInteger[] position = GetOctantPosition(new OctantIdentifier(i));
+				subNodes.Add(new OctarrNode<T>(position, size / 2));
 			}
 		}
 
@@ -47,7 +46,7 @@ public class OctreeNode<T>
 		}
 
 		// If any subNode has children or data, exit
-		foreach(OctreeNode<T> subNode in subNodes)
+		foreach(OctarrNode<T> subNode in subNodes)
 		{
 			if (!subNode.IsDeadEnd || subNode.data != null) return;
 		}
@@ -56,7 +55,7 @@ public class OctreeNode<T>
 		subNodes.Clear();
 	}
 
-	public OctantIdentifier GetOctantFromPosition(int x, int y, int z)
+	public OctantIdentifier GetOctantFromPosition(BigInteger x, BigInteger y, BigInteger z)
 	{
 		OctantIdentifier octant = new OctantIdentifier();
 		if (x >= position[0] + HalfSize) octant.bits[0] = true;
@@ -73,7 +72,11 @@ public class OctreeNode<T>
 
 	public void DrawBounds(DrawBox callback, bool recursively = false)
 	{
-		callback(position[0] + (size / 2f), position[1] + (size / 2f), position[2] + (size / 2f), size);
+		callback(
+			(float)position[0] + ((float)size / 2f),
+			(float)position[1] + ((float)size / 2f),
+			(float)position[2] + ((float)size / 2f),
+			(float)size);
 
 		if (recursively)
 		{
@@ -91,9 +94,9 @@ public class OctreeNode<T>
 		}
 	}
 
-	int[] GetOctantPosition(OctantIdentifier octant)
+	BigInteger[] GetOctantPosition(OctantIdentifier octant)
 	{
-		return new int[] {
+		return new BigInteger[] {
 			position[0] + (octant.x * HalfSize),
 			position[1] + (octant.y * HalfSize),
 			position[2] + (octant.z * HalfSize)
