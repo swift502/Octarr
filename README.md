@@ -1,3 +1,10 @@
+<p align="center">
+	<a href="https://jblaha.art/sketchbook/latest"><img src="https://user-images.githubusercontent.com/24359130/189495734-bc44b16a-c499-4e00-892a-2fff0160164d.png"></a>
+	<br>
+	<i>Example of using the DrawTree debug function</i>
+</p>
+
+
 # Octarr
 
 Stands for <b>oct</b>ree based 3D <b>arr</b>ay.
